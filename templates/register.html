@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+{% block title %}Join GymFitness - Register{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-80">
+            <div class="col-lg-10">
+                <div class="auth-card row g-0">
+                    <!-- Left side - Image/Info -->
+                    <div class="col-lg-5 auth-left d-none d-lg-flex">
+                        <div class="auth-left-content text-center">
+                            <div class="auth-left-icon">
+                                <i class="bi bi-person-plus display-1"></i>
+                            </div>
+                            <h3>Join Our Community</h3>
+                            <p>Thousands of members are already crushing their fitness goals.</p>
+                            <ul class="auth-perks">
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Free first month</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Expert trainers</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> 50+ classes weekly</li>
+                                <li><i class="bi bi-check-circle-fill text-success"></i> Cancel anytime</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Right side - Form -->
+                    <div class="col-lg-7 auth-right">
+                        <div class="auth-form-wrapper">
+                            <div class="auth-header mb-4">
+                                <h2 class="auth-title">Create Account</h2>
+                                <p class="auth-subtitle">Start your fitness journey today! 💪</p>
+                            </div>
+                            
+                            <!-- Registration Form -->
+                            <form id="registerForm" action="{{ url_for('register') }}" method="POST" novalidate>
+                                
+                                <!-- Full Name -->
+                                <div class="mb-3">
+                                    <label for="full_name" class="form-label">Full Name</label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control gym-input" id="full_name" 
+                                               name="full_name" placeholder="John Doe">
+                                    </div>
+                                </div>
+                                
+                                <!-- Username -->
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-at"></i></span>
+                                        <input type="text" class="form-control gym-input" id="username" 
+                                               name="username" placeholder="johndoe123" required minlength="3">
+                                    </div>
+                                    <div class="invalid-feedback">Username must be at least 3 characters.</div>
+                                </div>
+                                
+                                <!-- Email -->
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                        <input type="email" class="form-control gym-input" id="email" 
+                                               name="email" placeholder="john@example.com" required>
+                                    </div>
+                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                </div>
+                                
+                                <!-- Password -->
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control gym-input" id="password" 
+                                               name="password" placeholder="Min. 6 characters" required minlength="6">
+                                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password')">
+                                            <i class="bi bi-eye" id="password-eye"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Password strength indicator -->
+                                    <div class="password-strength mt-1">
+                                        <div class="strength-bar" id="strengthBar"></div>
+                                    </div>
+                                    <small id="strengthText" class="text-muted"></small>
+                                </div>
+                                
+                                <!-- Confirm Password -->
+                                <div class="mb-4">
+                                    <label for="confirm_password" class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                        <input type="password" class="form-control gym-input" id="confirm_password" 
+                                               name="confirm_password" placeholder="Repeat password" required>
+                                    </div>
+                                    <div class="invalid-feedback" id="passwordMatchError">Passwords do not match.</div>
+                                </div>
+                                
+                                <!-- Terms -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                        <label class="form-check-label" for="terms">
+                                            I agree to the <a href="#" class="text-accent">Terms of Service</a> and 
+                                            <a href="#" class="text-accent">Privacy Policy</a>
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Submit Button -->
+                                <button type="submit" class="btn btn-gym-primary w-100 btn-lg">
+                                    <i class="bi bi-person-plus me-2"></i>Create My Account
+                                </button>
+                                
+                            </form>
+                            
+                            <hr class="my-4">
+                            
+                            <p class="text-center mb-0">
+                                Already have an account? 
+                                <a href="{{ url_for('login') }}" class="text-accent fw-bold">Sign In</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ============================================================
+// CLIENT-SIDE FORM VALIDATION
+// ============================================================
+
+// Password visibility toggle
+function togglePassword(fieldId) {
+    const field = document.getElementById(fieldId);
+    const eye = document.getElementById(fieldId + '-eye');
+    if (field.type === 'password') {
+        field.type = 'text';
+        eye.className = 'bi bi-eye-slash';
+    } else {
+        field.type = 'password';
+        eye.className = 'bi bi-eye';
+    }
+}
+
+// Password strength checker
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const bar = document.getElementById('strengthBar');
+    const text = document.getElementById('strengthText');
+    
+    let strength = 0;
+    if (password.length >= 6) strength++;
+    if (password.length >= 10) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+    
+    const levels = ['', 'Very Weak', 'Weak', 'Fair', 'Strong', 'Very Strong'];
+    const colors = ['', 'danger', 'warning', 'info', 'success', 'success'];
+    
+    bar.style.width = (strength * 20) + '%';
+    bar.className = `strength-bar bg-${colors[strength]}`;
+    text.textContent = strength > 0 ? `Password strength: ${levels[strength]}` : '';
+    text.className = `text-${colors[strength]}`;
+});
+
+// Password match validation
+document.getElementById('confirm_password').addEventListener('input', function() {
+    const password = document.getElementById('password').value;
+    const errorDiv = document.getElementById('passwordMatchError');
+    
+    if (this.value && this.value !== password) {
+        this.classList.add('is-invalid');
+        errorDiv.style.display = 'block';
+    } else {
+        this.classList.remove('is-invalid');
+        errorDiv.style.display = 'none';
+    }
+});
+
+// Form submission validation
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm_password').value;
+    
+    if (password !== confirm) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+        return false;
+    }
+    
+    // Bootstrap validation
+    if (!this.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    this.classList.add('was-validated');
+});
+</script>
+{% endblock %}

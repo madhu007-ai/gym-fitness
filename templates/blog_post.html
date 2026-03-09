@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} - GymFitness Blog{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1>{{ post.title }}</h1>
+        <p class="text-muted small">
+            By {{ post.username or 'Unknown' }} on {{ post.created_date[:10] }}
+        </p>
+        <div class="mt-4">
+            {{ post.body | replace('\n','<br>') | safe }}
+        </div>
+        <a href="{{ url_for('blog') }}" class="btn btn-outline-light mt-4">
+            <i class="bi bi-arrow-left me-1"></i>Back to Blog
+        </a>
+    </div>
+</section>
+{% endblock %}

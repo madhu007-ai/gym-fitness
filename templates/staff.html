@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Staff Dashboard - GymFitness{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1>Staff Dashboard</h1>
+        <p class="text-muted">Total users: {{ total }} | Total staff: {{ staff_count }}</p>
+        <div class="table-responsive">
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Staff?</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in users %}
+                    <tr>
+                        <td>{{ u.id }}</td>
+                        <td>{{ u.username }}</td>
+                        <td>{{ u.full_name or '-' }}</td>
+                        <td>{{ u.email }}</td>
+                        <td>{{ 'Yes' if u.is_staff else 'No' }}</td>
+                        <td>
+                            {% if session.user_id != u.id %}
+                            <form method="POST" action="{{ url_for('toggle_staff', user_id=u.id) }}" style="display:inline">
+                                <button class="btn btn-sm btn-outline-light">
+                                    {{ 'Demote' if u.is_staff else 'Promote' }}
+                                </button>
+                            </form>
+                            {% else %}-{% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Add Fitness Program - GymFitness{% endblock %}
+
+{% block content %}
+<div class="form-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <!-- Back button -->
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light mb-3">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+                </a>
+                
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <i class="bi bi-journal-plus display-6 text-primary mb-2"></i>
+                        <h3>Add New Fitness Program</h3>
+                        <p class="text-muted">Create and share a new fitness program or workout plan</p>
+                    </div>
+                    
+                    <div class="form-card-body">
+                        <form id="addProjectForm" action="{{ url_for('add_project') }}" method="POST" novalidate>
+                            
+                            <!-- Program Title -->
+                            <div class="mb-4">
+                                <label for="title" class="form-label fw-semibold">Program Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control gym-input" id="title" name="title"
+                                       placeholder="e.g., 12-Week Muscle Building Program" required maxlength="200">
+                                <div class="invalid-feedback">Please enter a program title.</div>
+                            </div>
+                            
+                            <!-- Category & Difficulty Row -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="category" class="form-label fw-semibold">Category</label>
+                                    <select class="form-select gym-input" id="category" name="category">
+                                        <option value="">Select category...</option>
+                                        <option>Strength Training</option>
+                                        <option>Cardio</option>
+                                        <option>HIIT</option>
+                                        <option>Yoga & Flexibility</option>
+                                        <option>CrossFit</option>
+                                        <option>Bodybuilding</option>
+                                        <option>Weight Loss</option>
+                                        <option>Functional Fitness</option>
+                                        <option>Sports Performance</option>
+                                        <option>Rehabilitation</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="difficulty" class="form-label fw-semibold">Difficulty Level</label>
+                                    <select class="form-select gym-input" id="difficulty" name="difficulty">
+                                        <option value="">Select level...</option>
+                                        <option>Beginner</option>
+                                        <option>Intermediate</option>
+                                        <option>Advanced</option>
+                                        <option>All Levels</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Duration -->
+                            <div class="mb-4">
+                                <label for="duration" class="form-label fw-semibold">Duration</label>
+                                <input type="text" class="form-control gym-input" id="duration" name="duration"
+                                       placeholder="e.g., 8 weeks / 45 min per session">
+                            </div>
+                            
+                            <!-- Description -->
+                            <div class="mb-4">
+                                <label for="description" class="form-label fw-semibold">Description</label>
+                                <textarea class="form-control gym-input" id="description" name="description"
+                                          rows="5" placeholder="Describe this fitness program in detail...
+                                          
+What will members gain? What equipment is needed? How many sessions per week?"></textarea>
+                                <div class="form-text">
+                                    <span id="charCount">0</span>/500 characters
+                                </div>
+                            </div>
+                            
+                            <!-- Image URL -->
+                            <div class="mb-4">
+                                <label for="image_url" class="form-label fw-semibold">Program Image URL</label>
+                                <input type="url" class="form-control gym-input" id="image_url" name="image_url"
+                                       placeholder="https://example.com/image.jpg">
+                                <div class="form-text">Paste an image URL to display a program photo.</div>
+                                <!-- Image preview -->
+                                <div id="imagePreview" class="mt-2 d-none">
+                                    <img id="previewImg" src="" alt="Preview" class="img-thumbnail" style="max-height:150px">
+                                </div>
+                            </div>
+                            
+                            <!-- Featured Toggle -->
+                            <div class="mb-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured">
+                                    <label class="form-check-label" for="is_featured">
+                                        <i class="bi bi-star-fill text-warning me-1"></i>
+                                        Feature this program on the home page
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Submit Buttons -->
+                            <div class="d-flex gap-3 justify-content-end">
+                                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-gym-primary btn-lg px-5">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Program
+                                </button>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Character counter for description
+const descTextarea = document.getElementById('description');
+const charCount = document.getElementById('charCount');
+
+descTextarea.addEventListener('input', function() {
+    charCount.textContent = this.value.length;
+    if (this.value.length > 450) {
+        charCount.className = 'text-warning';
+    } else {
+        charCount.className = '';
+    }
+});
+
+// Image preview
+document.getElementById('image_url').addEventListener('input', function() {
+    const url = this.value.trim();
+    const preview = document.getElementById('imagePreview');
+    const img = document.getElementById('previewImg');
+    
+    if (url) {
+        img.src = url;
+        img.onload = () => preview.classList.remove('d-none');
+        img.onerror = () => preview.classList.add('d-none');
+    } else {
+        preview.classList.add('d-none');
+    }
+});
+
+// Form validation
+document.getElementById('addProjectForm').addEventListener('submit', function(e) {
+    if (!this.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    this.classList.add('was-validated');
+});
+</script>
+{% endblock %}

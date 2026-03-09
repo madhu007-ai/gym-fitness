@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}New Blog Post - GymFitness{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1>Create New Post</h1>
+        <form action="{{ url_for('add_blog') }}" method="POST" novalidate>
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                <input type="text" name="title" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                <textarea name="body" class="form-control" rows="8" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-gym-primary">Publish</button>
+            <a href="{{ url_for('blog') }}" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

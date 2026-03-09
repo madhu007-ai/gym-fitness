@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Gym Fitness Center - Full Info{% endblock %}
+
+{% block content %}
+
+<!-- Page Hero -->
+<section class="page-hero py-5">
+    <div class="container text-center">
+        <span class="section-badge">OUR FACILITY</span>
+        <h1 class="display-4 fw-bold mt-2">GymFitness <span class="text-accent">Center</span></h1>
+        <p class="lead text-muted">Everything you need to know about our world-class fitness facility</p>
+    </div>
+</section>
+
+<div class="container pb-6">
+
+    <!-- About Section -->
+    <div class="row g-5 align-items-center mb-6">
+        <div class="col-lg-6">
+            <span class="section-badge">ABOUT US</span>
+            <h2 class="section-title mt-2">More Than Just a <span class="text-accent">Gym</span></h2>
+            <p class="text-muted">GymFitness Center is a premium fitness facility dedicated to helping our members achieve extraordinary results. Founded in 2010, we have helped over 10,000 members transform their lives through fitness.</p>
+            <p class="text-muted">Our philosophy is simple: world-class equipment + expert coaching + a supportive community = RESULTS. We offer programs for all fitness levels, from complete beginners to competitive athletes.</p>
+            <div class="row g-3 mt-3">
+                <div class="col-6">
+                    <div class="about-stat text-center p-3 rounded">
+                        <div class="text-accent display-6 fw-bold">15+</div>
+                        <div class="text-muted">Years of Excellence</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="about-stat text-center p-3 rounded">
+                        <div class="text-accent display-6 fw-bold">10K+</div>
+                        <div class="text-muted">Happy Members</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="about-stat text-center p-3 rounded">
+                        <div class="text-accent display-6 fw-bold">50+</div>
+                        <div class="text-muted">Expert Trainers</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="about-stat text-center p-3 rounded">
+                        <div class="text-accent display-6 fw-bold">100+</div>
+                        <div class="text-muted">Weekly Classes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="gym-info-card p-4">
+                <h5 class="mb-4"><i class="bi bi-clock me-2 text-accent"></i>Opening Hours</h5>
+                <table class="table gym-table">
+                    <tbody>
+                        <tr><td>Monday - Friday</td><td class="text-end text-accent fw-bold">5:00 AM – 11:00 PM</td></tr>
+                        <tr><td>Saturday</td><td class="text-end text-accent fw-bold">6:00 AM – 10:00 PM</td></tr>
+                        <tr><td>Sunday</td><td class="text-end text-accent fw-bold">7:00 AM – 9:00 PM</td></tr>
+                        <tr><td>Public Holidays</td><td class="text-end text-muted">8:00 AM – 6:00 PM</td></tr>
+                    </tbody>
+                </table>
+                <hr>
+                <h6 class="mb-3"><i class="bi bi-geo-alt me-2 text-accent"></i>Location</h6>
+                <p class="text-muted mb-1">123 Fitness Boulevard, Health District</p>
+                <p class="text-muted mb-0">New York, NY 10001</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Facilities Section -->
+    <div class="mb-6">
+        <div class="text-center mb-5">
+            <span class="section-badge">WORLD-CLASS FACILITIES</span>
+            <h2 class="section-title mt-2">Our <span class="text-accent">Facilities</span></h2>
+        </div>
+        <div class="row g-4">
+            {% set facilities = [
+                {'name': 'Cardio Zone', 'icon': 'bi-heart-pulse', 'color': 'danger', 'desc': '50+ treadmills, ellipticals, bikes, and rowing machines in our spacious cardio area.', 'area': '5,000 sq ft'},
+                {'name': 'Free Weights Area', 'icon': 'bi-trophy', 'color': 'warning', 'desc': 'Full range of dumbbells (2-150 lbs), barbells, and Olympic platforms with bumper plates.', 'area': '3,500 sq ft'},
+                {'name': 'Strength Machines', 'icon': 'bi-gear', 'color': 'info', 'desc': 'State-of-the-art cable machines, plate-loaded equipment, and hammer strength stations.', 'area': '4,000 sq ft'},
+                {'name': 'Group Studio', 'icon': 'bi-people', 'color': 'success', 'desc': 'Dedicated studio for yoga, pilates, HIIT, dance, and all group fitness classes.', 'area': '2,500 sq ft'},
+                {'name': 'Pool & Aquatics', 'icon': 'bi-water', 'color': 'primary', 'desc': 'Olympic-size heated pool for lap swimming, water aerobics, and aqua therapy.', 'area': '8,000 sq ft'},
+                {'name': 'Recovery Center', 'icon': 'bi-heart', 'color': 'danger', 'desc': 'Sauna, steam room, cold plunge, massage chairs, and foam rolling area.', 'area': '1,500 sq ft'},
+                {'name': 'Boxing Ring', 'icon': 'bi-shield', 'color': 'warning', 'desc': 'Professional boxing ring with heavy bags, speed bags, and all combat training gear.', 'area': '2,000 sq ft'},
+                {'name': 'Nutrition Bar', 'icon': 'bi-cup-straw', 'color': 'success', 'desc': 'In-house smoothie bar, protein shakes, supplements, and healthy snacks available.', 'area': '500 sq ft'}
+            ] %}
+            {% for facility in facilities %}
+            <div class="col-lg-3 col-md-6">
+                <div class="facility-card">
+                    <div class="facility-icon text-{{ facility.color }}">
+                        <i class="bi {{ facility.icon }}"></i>
+                    </div>
+                    <h6 class="facility-name">{{ facility.name }}</h6>
+                    <p class="facility-desc">{{ facility.desc }}</p>
+                    <span class="facility-area"><i class="bi bi-rulers me-1"></i>{{ facility.area }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Membership Plans -->
+    <div class="mb-6">
+        <div class="text-center mb-5">
+            <span class="section-badge">MEMBERSHIP PLANS</span>
+            <h2 class="section-title mt-2">Choose Your <span class="text-accent">Plan</span></h2>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <!-- Basic -->
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h5>Basic</h5>
+                        <div class="pricing-price">$29<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="bi bi-check text-success"></i> Gym Access (6AM-8PM)</li>
+                        <li><i class="bi bi-check text-success"></i> Cardio & Weights Area</li>
+                        <li><i class="bi bi-check text-success"></i> Locker Room Access</li>
+                        <li><i class="bi bi-x text-danger"></i> Group Classes</li>
+                        <li><i class="bi bi-x text-danger"></i> Pool Access</li>
+                        <li><i class="bi bi-x text-danger"></i> Personal Training</li>
+                    </ul>
+                    <a href="{{ url_for('register') }}" class="btn btn-outline-light w-100">Get Started</a>
+                </div>
+            </div>
+            <!-- Pro (Featured) -->
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card pricing-card-featured">
+                    <div class="pricing-badge">MOST POPULAR</div>
+                    <div class="pricing-header">
+                        <h5>Pro</h5>
+                        <div class="pricing-price">$59<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="bi bi-check text-success"></i> 24/7 Gym Access</li>
+                        <li><i class="bi bi-check text-success"></i> All Equipment Access</li>
+                        <li><i class="bi bi-check text-success"></i> Unlimited Group Classes</li>
+                        <li><i class="bi bi-check text-success"></i> Pool & Sauna Access</li>
+                        <li><i class="bi bi-check text-success"></i> 1 PT Session/Month</li>
+                        <li><i class="bi bi-x text-danger"></i> Unlimited Personal Training</li>
+                    </ul>
+                    <a href="{{ url_for('register') }}" class="btn btn-gym-primary w-100">Get Started</a>
+                </div>
+            </div>
+            <!-- Elite -->
+            <div class="col-lg-4 col-md-6">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h5>Elite</h5>
+                        <div class="pricing-price">$129<span>/month</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="bi bi-check text-success"></i> Everything in Pro</li>
+                        <li><i class="bi bi-check text-success"></i> Unlimited PT Sessions</li>
+                        <li><i class="bi bi-check text-success"></i> Nutrition Coaching</li>
+                        <li><i class="bi bi-check text-success"></i> Priority Class Booking</li>
+                        <li><i class="bi bi-check text-success"></i> Guest Passes (2/month)</li>
+                        <li><i class="bi bi-check text-success"></i> Towel & Locker Service</li>
+                    </ul>
+                    <a href="{{ url_for('register') }}" class="btn btn-outline-light w-100">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trainers -->
+    <div class="mb-6">
+        <div class="text-center mb-5">
+            <span class="section-badge">OUR TEAM</span>
+            <h2 class="section-title mt-2">Expert <span class="text-accent">Trainers</span></h2>
+        </div>
+        <div class="row g-4">
+            {% set trainers = [
+                {'name': 'Marcus Johnson', 'specialty': 'Strength & Conditioning', 'exp': '10 years', 'icon': 'bi-person-fill'},
+                {'name': 'Sarah Chen', 'specialty': 'Yoga & Mindfulness', 'exp': '8 years', 'icon': 'bi-person-fill'},
+                {'name': 'Diego Martinez', 'specialty': 'Boxing & MMA', 'exp': '12 years', 'icon': 'bi-person-fill'},
+                {'name': 'Aisha Williams', 'specialty': 'Nutrition & Weight Loss', 'exp': '7 years', 'icon': 'bi-person-fill'},
+            ] %}
+            {% for trainer in trainers %}
+            <div class="col-lg-3 col-md-6">
+                <div class="trainer-card text-center">
+                    <div class="trainer-avatar">
+                        <i class="bi {{ trainer.icon }}"></i>
+                    </div>
+                    <h6 class="trainer-name">{{ trainer.name }}</h6>
+                    <p class="trainer-specialty text-accent">{{ trainer.specialty }}</p>
+                    <span class="trainer-exp text-muted small">{{ trainer.exp }} experience</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Contact / CTA -->
+    <div class="gym-cta-bottom text-center p-5 rounded">
+        <h2 class="mb-3">Ready to Transform Your Life?</h2>
+        <p class="text-muted mb-4">Join us today and take the first step towards your best self!</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('register') }}" class="btn btn-gym-primary btn-lg px-5">
+                <i class="bi bi-lightning me-2"></i>Join Now
+            </a>
+            <a href="tel:+15551234567" class="btn btn-outline-light btn-lg">
+                <i class="bi bi-telephone me-2"></i>Call Us
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

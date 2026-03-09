@@ -1,0 +1,8 @@
+# GymFitness Center - Python Dependencies
+# Install with: pip install -r requirements.txt
+
+Flask>=2.3.0
+Werkzeug>=2.3.0
+
+# Note: sqlite3 is built into Python - no separate install needed!
+# Note: Flask-SQLAlchemy is NOT required - we use sqlite3 directly

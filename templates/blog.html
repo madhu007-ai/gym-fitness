@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Blog - GymFitness{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>GymFitness Blog</h1>
+            {% if session.user_id %}
+            <a href="{{ url_for('add_blog') }}" class="btn btn-gym-primary">
+                <i class="bi bi-plus-circle me-1"></i>Add Post
+            </a>
+            {% endif %}
+        </div>
+
+        {% if posts and posts|length > 0 %}
+        <div class="list-group">
+            {% for post in posts %}
+            <a href="{{ url_for('blog_post', post_id=post.id) }}" class="list-group-item list-group-item-action">
+                <h5 class="mb-1">{{ post.title }}</h5>
+                <small class="text-muted">By {{ post.username or 'Unknown' }} on {{ post.created_date[:10] }}</small>
+                <p class="mb-1">{{ post.body[:150] }}{% if post.body|length > 150 %}...{% endif %}</p>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-muted">No posts yet. {% if session.user_id %}Be the first to <a href="{{ url_for('add_blog') }}">write one</a>.{% endif %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

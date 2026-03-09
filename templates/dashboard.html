@@ -1,0 +1,405 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - GymFitness{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper py-4">
+    <div class="container-fluid px-4">
+
+        <!-- Dashboard Header -->
+        <div class="dashboard-header mb-4">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h1 class="dashboard-title">
+                        Welcome back, <span class="text-accent">{{ user.full_name or user.username }}</span>! 💪
+                    </h1>
+                    <p class="text-muted mb-0">
+                        <i class="bi bi-calendar me-1"></i>Member since {{ user.joined_date.strftime('%B %Y') }}
+                        {% if user.goal %} · 🎯 Goal: {{ user.goal }}{% endif %}
+                    </p>
+                </div>
+                <div class="col-auto d-flex gap-2">
+                    <a href="{{ url_for('blog') }}" 
+                       class="btn btn-outline-light" target="_blank">
+                        <i class="bi bi-journal-text me-1"></i>View Blog
+                    </a>
+                    <a href="{{ url_for('update_profile') }}" class="btn btn-gym-primary">
+                        <i class="bi bi-pencil me-1"></i>Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-3 mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card stat-card-primary">
+                    <div class="stat-card-icon"><i class="bi bi-journal-richtext"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">{{ projects|length }}</span>
+                        <span class="stat-card-label">Fitness Programs</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card stat-card-success">
+                    <div class="stat-card-icon"><i class="bi bi-star"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">{{ skills|length }}</span>
+                        <span class="stat-card-label">Skills</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card stat-card-warning">
+                    <div class="stat-card-icon"><i class="bi bi-tools"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">{{ technologies|length }}</span>
+                        <span class="stat-card-label">Equipment</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card stat-card-info">
+                    <div class="stat-card-icon"><i class="bi bi-fire"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-number">{{ projects|selectattr('is_featured')|list|length }}</span>
+                        <span class="stat-card-label">Featured Programs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+
+            <!-- ============================================================
+                 PROJECTS / PROGRAMS SECTION
+                 ============================================================ -->
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h5 class="mb-0"><i class="bi bi-journal-richtext me-2 text-primary"></i>Fitness Programs</h5>
+                        <a href="{{ url_for('add_project') }}" class="btn btn-sm btn-gym-primary">
+                            <i class="bi bi-plus me-1"></i>Add Program
+                        </a>
+                    </div>
+                    <div class="dashboard-card-body">
+                        {% if projects %}
+                        <div class="table-responsive">
+                            <table class="table gym-table">
+                                <thead>
+                                    <tr>
+                                        <th>Program Name</th>
+                                        <th>Category</th>
+                                        <th>Duration</th>
+                                        <th>Difficulty</th>
+                                        <th>Featured</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for project in projects %}
+                                    <tr>
+                                        <td><strong>{{ project.title }}</strong></td>
+                                        <td>
+                                            <span class="badge bg-primary">{{ project.category or '—' }}</span>
+                                        </td>
+                                        <td>{{ project.duration or '—' }}</td>
+                                        <td>
+                                            {% if project.difficulty == 'Beginner' %}
+                                                <span class="badge bg-success">{{ project.difficulty }}</span>
+                                            {% elif project.difficulty == 'Intermediate' %}
+                                                <span class="badge bg-warning text-dark">{{ project.difficulty }}</span>
+                                            {% elif project.difficulty == 'Advanced' %}
+                                                <span class="badge bg-danger">{{ project.difficulty }}</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">—</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if project.is_featured %}
+                                                <i class="bi bi-star-fill text-warning"></i> Yes
+                                            {% else %}
+                                                <i class="bi bi-star text-muted"></i> No
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <a href="{{ url_for('edit_project', project_id=project.id) }}" 
+                                               class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form action="{{ url_for('delete_project', project_id=project.id) }}" 
+                                                  method="POST" class="d-inline"
+                                                  onsubmit="return confirm('Delete this program?')">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="empty-state text-center py-5">
+                            <i class="bi bi-journal-plus display-4 text-muted"></i>
+                            <h5 class="mt-3 text-muted">No programs yet</h5>
+                            <p class="text-muted">Add your first fitness program to get started!</p>
+                            <a href="{{ url_for('add_project') }}" class="btn btn-gym-primary">
+                                <i class="bi bi-plus me-1"></i>Add Your First Program
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 SKILLS SECTION
+                 ============================================================ -->
+            <div class="col-lg-6">
+                <div class="dashboard-card h-100">
+                    <div class="dashboard-card-header">
+                        <h5 class="mb-0"><i class="bi bi-star me-2 text-warning"></i>Skills & Certifications</h5>
+                        <button class="btn btn-sm btn-gym-primary" data-bs-toggle="modal" data-bs-target="#addSkillModal">
+                            <i class="bi bi-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="dashboard-card-body">
+                        {% if skills %}
+                            {% for skill in skills %}
+                            <div class="skill-item mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <div>
+                                        <i class="bi {{ skill.icon }} me-2 text-warning"></i>
+                                        <strong>{{ skill.name }}</strong>
+                                        {% if skill.category %}
+                                            <small class="text-muted ms-2">· {{ skill.category }}</small>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <span class="text-muted small">{{ skill.proficiency }}%</span>
+                                        <a href="{{ url_for('edit_skill', skill_id=skill.id) }}" 
+                                           class="btn btn-xs btn-outline-primary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ url_for('delete_skill', skill_id=skill.id) }}" 
+                                              method="POST" class="d-inline"
+                                              onsubmit="return confirm('Delete this skill?')">
+                                            <button class="btn btn-xs btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="progress gym-progress-sm">
+                                    <div class="progress-bar bg-warning" style="width: {{ skill.proficiency }}%"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class="empty-state text-center py-4">
+                            <i class="bi bi-star display-5 text-muted"></i>
+                            <p class="text-muted mt-2 mb-3">No skills added yet</p>
+                            <button class="btn btn-sm btn-gym-primary" data-bs-toggle="modal" data-bs-target="#addSkillModal">
+                                Add First Skill
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+                 EQUIPMENT / TECHNOLOGIES SECTION
+                 ============================================================ -->
+            <div class="col-lg-6">
+                <div class="dashboard-card h-100">
+                    <div class="dashboard-card-header">
+                        <h5 class="mb-0"><i class="bi bi-tools me-2 text-info"></i>Equipment & Tools</h5>
+                        <button class="btn btn-sm btn-gym-primary" data-bs-toggle="modal" data-bs-target="#addTechModal">
+                            <i class="bi bi-plus"></i> Add
+                        </button>
+                    </div>
+                    <div class="dashboard-card-body">
+                        {% if technologies %}
+                            <div class="row g-2">
+                            {% for tech in technologies %}
+                            <div class="col-12">
+                                <div class="tech-item d-flex align-items-center justify-content-between p-2 rounded">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="tech-icon">
+                                            <i class="bi {{ tech.icon }}"></i>
+                                        </div>
+                                        <div>
+                                            <strong>{{ tech.name }}</strong>
+                                            <div class="text-muted small">
+                                                {{ tech.category or '' }}
+                                                {% if tech.quantity %} · Qty: {{ tech.quantity }}{% endif %}
+                                                <span class="badge bg-{{ 'success' if tech.condition == 'Excellent' else 'warning' }} ms-1 text-dark">
+                                                    {{ tech.condition }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <a href="{{ url_for('edit_technology', tech_id=tech.id) }}" 
+                                           class="btn btn-xs btn-outline-primary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <form action="{{ url_for('delete_technology', tech_id=tech.id) }}" 
+                                              method="POST" class="d-inline"
+                                              onsubmit="return confirm('Delete this equipment?')">
+                                            <button class="btn btn-xs btn-outline-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            </div>
+                        {% else %}
+                        <div class="empty-state text-center py-4">
+                            <i class="bi bi-tools display-5 text-muted"></i>
+                            <p class="text-muted mt-2 mb-3">No equipment added yet</p>
+                            <button class="btn btn-sm btn-gym-primary" data-bs-toggle="modal" data-bs-target="#addTechModal">
+                                Add Equipment
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     ADD SKILL MODAL
+     ============================================================ -->
+<div class="modal fade" id="addSkillModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content gym-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-star me-2 text-warning"></i>Add New Skill</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('add_skill') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Skill Name *</label>
+                        <input type="text" class="form-control gym-input" name="name" 
+                               placeholder="e.g., Personal Training" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select gym-input" name="category">
+                            <option value="">Select category...</option>
+                            <option>Strength Training</option>
+                            <option>Cardio</option>
+                            <option>Yoga & Flexibility</option>
+                            <option>Nutrition</option>
+                            <option>Sports Coaching</option>
+                            <option>Rehabilitation</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Proficiency Level: <span id="proficiencyValue">50</span>%</label>
+                        <input type="range" class="form-range" name="proficiency" 
+                               min="0" max="100" value="50"
+                               oninput="document.getElementById('proficiencyValue').textContent=this.value">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Icon (Bootstrap Icon class)</label>
+                        <input type="text" class="form-control gym-input" name="icon" 
+                               placeholder="bi-star" value="bi-star">
+                        <small class="text-muted">Browse icons at <a href="https://icons.getbootstrap.com" target="_blank">icons.getbootstrap.com</a></small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control gym-input" name="description" rows="2"
+                                  placeholder="Brief description..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-gym-primary">
+                        <i class="bi bi-check me-1"></i>Add Skill
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     ADD TECHNOLOGY/EQUIPMENT MODAL
+     ============================================================ -->
+<div class="modal fade" id="addTechModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content gym-modal">
+            <div class="modal-header">
+                <h5 class="modal-title"><i class="bi bi-tools me-2 text-info"></i>Add Equipment</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('add_technology') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Equipment Name *</label>
+                        <input type="text" class="form-control gym-input" name="name" 
+                               placeholder="e.g., Olympic Barbell" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select gym-input" name="category">
+                            <option value="">Select category...</option>
+                            <option>Cardio Machines</option>
+                            <option>Free Weights</option>
+                            <option>Strength Machines</option>
+                            <option>Functional Training</option>
+                            <option>Recovery</option>
+                            <option>Accessories</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Quantity</label>
+                            <input type="number" class="form-control gym-input" name="quantity" 
+                                   value="1" min="1">
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Condition</label>
+                            <select class="form-select gym-input" name="condition">
+                                <option>Excellent</option>
+                                <option>Good</option>
+                                <option>Fair</option>
+                                <option>Needs Maintenance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Icon Class</label>
+                        <input type="text" class="form-control gym-input" name="icon" 
+                               value="bi-tools" placeholder="bi-tools">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control gym-input" name="description" rows="2"
+                                  placeholder="Optional description..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-gym-primary">
+                        <i class="bi bi-check me-1"></i>Add Equipment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

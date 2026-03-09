@@ -1,0 +1,939 @@
+/* ============================================================
+   GymFitness Center - Main Stylesheet
+   
+   Structure:
+   1. CSS Variables (colors, fonts)
+   2. Global Styles
+   3. Navbar
+   4. Hero Section
+   5. Feature Cards
+   6. Program Cards
+   7. Auth Pages (Login/Register)
+   8. Dashboard
+   9. Forms
+   10. Gym Center Page
+   11. About/Blog Pages
+   12. Footer
+   13. Utilities
+   14. Animations
+   ============================================================ */
+
+/* ============================================================
+   1. CSS VARIABLES - Change these to rebrand the whole site!
+   ============================================================ */
+:root {
+    --gym-primary: #FF3D00;       /* Fiery orange-red - main brand color */
+    --gym-secondary: #FF6B35;     /* Lighter orange */
+    --gym-accent: #FFD700;        /* Gold/yellow accent */
+    --gym-dark: #0A0A0A;          /* Near black background */
+    --gym-dark-2: #111111;        /* Slightly lighter dark */
+    --gym-dark-3: #1A1A1A;        /* Card backgrounds */
+    --gym-dark-4: #222222;        /* Slightly lighter card */
+    --gym-text: #E0E0E0;          /* Main text color */
+    --gym-text-muted: #888888;    /* Muted text */
+    --gym-border: #2A2A2A;        /* Border color */
+    --gym-font-display: 'Bebas Neue', sans-serif;  /* Big heading font */
+    --gym-font-body: 'Barlow', sans-serif;          /* Body font */
+    --gym-border-radius: 12px;
+    --gym-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    --gym-glow: 0 0 20px rgba(255, 61, 0, 0.3);
+}
+
+/* ============================================================
+   2. GLOBAL STYLES
+   ============================================================ */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--gym-font-body);
+    background-color: var(--gym-dark);
+    color: var(--gym-text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--gym-font-body);
+    font-weight: 700;
+    color: white;
+}
+
+a {
+    color: var(--gym-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+a:hover { color: var(--gym-secondary); }
+
+/* Smooth scrolling for whole page */
+html { scroll-behavior: smooth; }
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--gym-dark-2); }
+::-webkit-scrollbar-thumb { background: var(--gym-primary); border-radius: 3px; }
+
+/* Utility spacing */
+.py-6 { padding-top: 5rem !important; padding-bottom: 5rem !important; }
+.pb-6 { padding-bottom: 5rem !important; }
+.min-vh-80 { min-height: 80vh; }
+.min-vh-85 { min-height: 85vh; }
+.text-accent { color: var(--gym-accent) !important; }
+.text-gradient {
+    background: linear-gradient(135deg, var(--gym-primary), var(--gym-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.bg-dark-alt { background-color: var(--gym-dark-2) !important; }
+
+/* ============================================================
+   3. NAVBAR
+   ============================================================ */
+.gym-navbar {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--gym-border);
+    padding: 0.75rem 0;
+}
+
+.brand-text {
+    font-family: var(--gym-font-display);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.brand-accent { color: var(--gym-primary); }
+.brand-icon { font-size: 1.3rem; }
+
+.gym-navbar .nav-link {
+    color: var(--gym-text) !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1rem !important;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+.gym-navbar .nav-link:hover {
+    color: white !important;
+    background: rgba(255,255,255,0.08);
+}
+
+.btn-gym-primary {
+    background: linear-gradient(135deg, var(--gym-primary), var(--gym-secondary));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s;
+}
+.btn-gym-primary:hover {
+    background: linear-gradient(135deg, var(--gym-secondary), var(--gym-primary));
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--gym-glow);
+}
+
+.btn-gym-outline {
+    background: transparent;
+    color: white;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    font-weight: 700;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s;
+}
+.btn-gym-outline:hover {
+    color: white;
+    border-color: var(--gym-primary);
+    background: rgba(255,61,0,0.1);
+}
+
+/* ============================================================
+   4. HERO SECTION
+   ============================================================ */
+.hero-section {
+    position: relative;
+    background: 
+        radial-gradient(ellipse at 20% 50%, rgba(255,61,0,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,215,0,0.05) 0%, transparent 50%),
+        linear-gradient(135deg, #0A0A0A 0%, #111111 50%, #0D0D0D 100%);
+    overflow: hidden;
+    padding: 6rem 0 4rem;
+}
+
+/* Animated background grid */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+        linear-gradient(rgba(255,61,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,61,0,0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(60px); }
+}
+
+.hero-title {
+    font-family: var(--gym-font-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: 2px;
+    color: white;
+}
+
+.hero-subtitle {
+    font-size: 1.1rem;
+    color: var(--gym-text-muted);
+    max-width: 500px;
+    margin-top: 1.5rem;
+}
+
+/* Hero stats */
+.hero-stats { display: flex; gap: 2rem; }
+.stat-item { display: flex; flex-direction: column; }
+.stat-number {
+    font-family: var(--gym-font-display);
+    font-size: 2rem;
+    color: var(--gym-primary);
+    line-height: 1;
+}
+.stat-label { font-size: 0.8rem; color: var(--gym-text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Hero card */
+.hero-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 320px;
+    margin: 0 auto;
+    box-shadow: var(--gym-shadow);
+}
+.hero-card-content h4 { color: white; margin: 1rem 0 0.5rem; }
+.hero-card-content p { color: var(--gym-text-muted); font-size: 0.9rem; }
+.hero-card-content small { color: var(--gym-text-muted); }
+
+/* Floating animation */
+.floating {
+    animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+}
+
+/* Section badges */
+.section-badge {
+    display: inline-block;
+    background: rgba(255,61,0,0.15);
+    color: var(--gym-primary);
+    border: 1px solid rgba(255,61,0,0.3);
+    border-radius: 20px;
+    padding: 0.25rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.badge-gym { 
+    background: rgba(255,61,0,0.2);
+    color: var(--gym-primary);
+    border: 1px solid rgba(255,61,0,0.4);
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-top: 0.5rem;
+    color: white;
+}
+
+/* Progress bars */
+.gym-progress {
+    background: var(--gym-border);
+    border-radius: 10px;
+    height: 8px;
+    margin: 0.5rem 0;
+    overflow: hidden;
+}
+.gym-progress .progress-bar {
+    background: linear-gradient(90deg, var(--gym-primary), var(--gym-accent));
+    border-radius: 10px;
+}
+.gym-progress-sm {
+    background: var(--gym-border);
+    border-radius: 10px;
+    height: 6px;
+    overflow: hidden;
+}
+.gym-progress-sm .progress-bar {
+    border-radius: 10px;
+    transition: width 1s ease;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid var(--gym-primary);
+    border-bottom: 2px solid var(--gym-primary);
+    transform: rotate(45deg);
+    animation: scrollBounce 1.5s ease-in-out infinite;
+}
+@keyframes scrollBounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
+    50% { transform: rotate(45deg) translateY(8px); opacity: 0.5; }
+}
+
+/* ============================================================
+   5. FEATURE CARDS
+   ============================================================ */
+.feature-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+    padding: 2rem;
+    transition: all 0.3s;
+    height: 100%;
+}
+.feature-card:hover {
+    border-color: var(--gym-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--gym-glow);
+}
+.feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1.25rem;
+}
+.feature-card h5 { color: white; margin-bottom: 0.75rem; }
+.feature-card p { color: var(--gym-text-muted); margin: 0; font-size: 0.9rem; }
+
+/* ============================================================
+   6. PROGRAM CARDS
+   ============================================================ */
+.program-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+    overflow: hidden;
+    transition: all 0.3s;
+    height: 100%;
+}
+.program-card:hover {
+    border-color: var(--gym-primary);
+    transform: translateY(-4px);
+    box-shadow: var(--gym-shadow);
+}
+.program-image {
+    height: 200px;
+    background: linear-gradient(135deg, var(--gym-dark-4), var(--gym-dark-2));
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gym-text-muted);
+}
+.program-image-default {
+    background: linear-gradient(135deg, #1A0A00, #0A1A00);
+}
+.program-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--gym-primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+.program-body { padding: 1.5rem; }
+.program-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+.program-category {
+    font-size: 0.75rem;
+    color: var(--gym-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.program-duration { font-size: 0.8rem; color: var(--gym-text-muted); }
+.program-title { color: white; font-size: 1rem; margin-bottom: 0.75rem; }
+.program-desc { color: var(--gym-text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+.program-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.trainer-name { font-size: 0.8rem; color: var(--gym-text-muted); }
+
+/* Class cards */
+.class-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+    padding: 1.5rem 1rem;
+    transition: all 0.3s;
+}
+.class-card:hover {
+    border-color: var(--gym-primary);
+    background: var(--gym-dark-4);
+    transform: translateY(-2px);
+}
+.class-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.class-name { font-size: 0.85rem; font-weight: 700; color: white; margin-bottom: 0.25rem; }
+.class-time { display: block; font-size: 0.7rem; color: var(--gym-primary); font-weight: 600; margin-bottom: 0.25rem; }
+.class-desc { font-size: 0.75rem; color: var(--gym-text-muted); margin: 0; }
+
+/* CTA Section */
+.cta-card {
+    background: linear-gradient(135deg, rgba(255,61,0,0.15), rgba(255,107,53,0.1));
+    border: 1px solid rgba(255,61,0,0.3);
+    border-radius: 20px;
+    padding: 4rem 2rem;
+}
+.cta-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: white;
+}
+.cta-text { color: var(--gym-text-muted); font-size: 1.1rem; }
+
+/* ============================================================
+   7. AUTH PAGES (Login/Register)
+   ============================================================ */
+.auth-section {
+    min-height: 90vh;
+    background: 
+        radial-gradient(ellipse at 0% 100%, rgba(255,61,0,0.1) 0%, transparent 60%),
+        var(--gym-dark);
+    display: flex;
+    align-items: center;
+    padding: 3rem 0;
+}
+
+.auth-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--gym-shadow);
+}
+
+.auth-left {
+    background: linear-gradient(135deg, var(--gym-primary), #8B0000);
+    padding: 3rem 2rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.auth-left-icon { color: rgba(255,255,255,0.9); margin-bottom: 1.5rem; }
+.auth-left h3 { color: white; font-size: 1.75rem; margin-bottom: 1rem; }
+.auth-left p { color: rgba(255,255,255,0.8); }
+.auth-perks {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+}
+.auth-perks li {
+    color: white;
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+}
+.auth-perks i { margin-right: 0.75rem; }
+.auth-quote {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    border-left: 3px solid rgba(255,255,255,0.5);
+}
+.auth-quote blockquote {
+    color: rgba(255,255,255,0.9);
+    font-style: italic;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.auth-right { padding: 3rem; }
+.auth-form-wrapper { max-width: 400px; }
+.auth-title {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 0.25rem;
+}
+.auth-subtitle { color: var(--gym-text-muted); }
+
+/* Form inputs */
+.gym-input {
+    background: var(--gym-dark-2) !important;
+    border: 1px solid var(--gym-border) !important;
+    color: var(--gym-text) !important;
+    border-radius: 8px !important;
+    padding: 0.65rem 1rem !important;
+    transition: all 0.3s !important;
+}
+.gym-input:focus {
+    border-color: var(--gym-primary) !important;
+    box-shadow: 0 0 0 3px rgba(255,61,0,0.15) !important;
+    background: var(--gym-dark) !important;
+}
+.gym-input::placeholder { color: var(--gym-text-muted) !important; }
+.gym-input option { background: var(--gym-dark-3); }
+
+.gym-input-group .input-group-text {
+    background: var(--gym-dark-2);
+    border: 1px solid var(--gym-border);
+    border-right: none;
+    color: var(--gym-text-muted);
+}
+.gym-input-group .gym-input {
+    border-left: none !important;
+}
+.gym-input-group .btn-outline-secondary {
+    background: var(--gym-dark-2);
+    border: 1px solid var(--gym-border);
+    border-left: none;
+    color: var(--gym-text-muted);
+}
+
+/* Password strength */
+.password-strength {
+    height: 4px;
+    background: var(--gym-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+.strength-bar {
+    height: 100%;
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+/* Form labels */
+.form-label { color: var(--gym-text); font-weight: 600; font-size: 0.875rem; margin-bottom: 0.4rem; }
+.form-check-input:checked { background-color: var(--gym-primary); border-color: var(--gym-primary); }
+.form-check-label { color: var(--gym-text-muted); }
+
+/* Flash alerts */
+.flash-alert { border-radius: 10px; font-weight: 500; }
+
+/* ============================================================
+   8. DASHBOARD
+   ============================================================ */
+.dashboard-wrapper {
+    background: var(--gym-dark);
+    min-height: calc(100vh - 76px);
+}
+
+.dashboard-title {
+    font-size: 1.75rem;
+    color: white;
+    font-weight: 700;
+}
+
+/* Stat Cards */
+.stat-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    transition: transform 0.2s;
+}
+.stat-card:hover { transform: translateY(-2px); }
+.stat-card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+.stat-card-info { display: flex; flex-direction: column; }
+.stat-card-number { font-size: 1.75rem; font-weight: 800; color: white; line-height: 1; }
+.stat-card-label { font-size: 0.8rem; color: var(--gym-text-muted); margin-top: 0.2rem; }
+
+.stat-card-primary .stat-card-icon { background: rgba(13,110,253,0.15); color: #0D6EFD; }
+.stat-card-success .stat-card-icon { background: rgba(25,135,84,0.15); color: #198754; }
+.stat-card-warning .stat-card-icon { background: rgba(255,193,7,0.15); color: #FFC107; }
+.stat-card-info .stat-card-icon { background: rgba(13,202,240,0.15); color: #0DCAF0; }
+
+/* Dashboard Cards */
+.dashboard-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+    overflow: hidden;
+}
+.dashboard-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--gym-border);
+    background: var(--gym-dark-4);
+}
+.dashboard-card-header h5 { color: white; }
+.dashboard-card-body { padding: 1.5rem; }
+
+/* Tables */
+.gym-table { color: var(--gym-text); }
+.gym-table th {
+    color: var(--gym-text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-color: var(--gym-border);
+    background: var(--gym-dark-2);
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+}
+.gym-table td {
+    border-color: var(--gym-border);
+    vertical-align: middle;
+    padding: 0.75rem 1rem;
+}
+.gym-table tbody tr {
+    transition: background 0.15s;
+}
+.gym-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+/* Skill items in dashboard */
+.skill-item { padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+/* Tech items in dashboard */
+.tech-item { background: var(--gym-dark-2); border: 1px solid var(--gym-border); }
+.tech-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(13,202,240,0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0DCAF0;
+    font-size: 1.1rem;
+}
+
+/* Small button */
+.btn-xs {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.75rem;
+    border-radius: 5px;
+}
+
+/* Empty state */
+.empty-state { color: var(--gym-text-muted); }
+
+/* Modal */
+.gym-modal {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+}
+.gym-modal .modal-header {
+    background: var(--gym-dark-4);
+    border-bottom: 1px solid var(--gym-border);
+    color: white;
+}
+.gym-modal .modal-footer {
+    background: var(--gym-dark-4);
+    border-top: 1px solid var(--gym-border);
+}
+
+/* ============================================================
+   9. FORM PAGES
+   ============================================================ */
+.form-page {
+    background: 
+        radial-gradient(ellipse at 100% 0%, rgba(255,61,0,0.08) 0%, transparent 50%),
+        var(--gym-dark);
+    min-height: 90vh;
+}
+
+.form-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--gym-shadow);
+}
+.form-card-header {
+    background: var(--gym-dark-4);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 1px solid var(--gym-border);
+}
+.form-card-header h3 { color: white; margin: 0.5rem 0 0; }
+.form-card-body { padding: 2rem; }
+.form-text { color: var(--gym-text-muted) !important; font-size: 0.8rem; }
+
+
+/* ============================================================
+   11. GYM CENTER PAGE
+   ============================================================ */
+.page-hero {
+    background: linear-gradient(135deg, rgba(255,61,0,0.1), transparent);
+    border-bottom: 1px solid var(--gym-border);
+}
+
+.about-stat {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+}
+
+.gym-info-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+}
+
+.facility-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: var(--gym-border-radius);
+    padding: 1.75rem;
+    height: 100%;
+    transition: all 0.3s;
+}
+.facility-card:hover {
+    border-color: var(--gym-primary);
+    transform: translateY(-3px);
+}
+.facility-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.facility-name { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+.facility-desc { color: var(--gym-text-muted); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.facility-area { font-size: 0.75rem; color: var(--gym-primary); font-weight: 600; }
+
+/* Pricing */
+.pricing-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    height: 100%;
+}
+.pricing-card-featured {
+    border-color: var(--gym-primary);
+    background: linear-gradient(135deg, rgba(255,61,0,0.08), var(--gym-dark-3));
+}
+.pricing-badge {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gym-primary);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.75rem;
+    border-radius: 20px;
+    letter-spacing: 1px;
+}
+.pricing-header { margin-bottom: 1.5rem; }
+.pricing-header h5 { color: white; font-size: 1.25rem; }
+.pricing-price {
+    font-family: var(--gym-font-display);
+    font-size: 3rem;
+    color: var(--gym-accent);
+    line-height: 1;
+}
+.pricing-price span { font-size: 1rem; color: var(--gym-text-muted); }
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem;
+    text-align: left;
+}
+.pricing-features li {
+    padding: 0.4rem 0;
+    color: var(--gym-text-muted);
+    font-size: 0.9rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.pricing-features i { margin-right: 0.5rem; }
+
+/* Trainers */
+.trainer-card {
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: 16px;
+    padding: 2rem 1rem;
+    transition: all 0.3s;
+}
+.trainer-card:hover {
+    border-color: var(--gym-primary);
+    transform: translateY(-3px);
+}
+.trainer-avatar {
+    font-size: 4rem;
+    color: var(--gym-text-muted);
+    margin-bottom: 1rem;
+}
+.trainer-name { color: white; font-weight: 700; margin-bottom: 0.25rem; }
+.trainer-specialty { font-size: 0.85rem; margin-bottom: 0.25rem; }
+.trainer-exp { display: block; }
+
+.gym-cta-bottom {
+    background: linear-gradient(135deg, rgba(255,61,0,0.15), rgba(255,107,53,0.08));
+    border: 1px solid rgba(255,61,0,0.3);
+}
+
+/* ============================================================
+   12. FOOTER
+   ============================================================ */
+.gym-footer {
+    background: var(--gym-dark-2);
+    border-top: 1px solid var(--gym-border);
+    padding: 4rem 0 2rem;
+}
+.footer-brand {
+    font-family: var(--gym-font-display);
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    color: white;
+    margin-bottom: 1rem;
+}
+.footer-heading {
+    color: white;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1.25rem;
+}
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+.footer-links li {
+    color: var(--gym-text-muted);
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
+}
+.footer-links a {
+    color: var(--gym-text-muted);
+    transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--gym-primary); }
+.social-links { display: flex; gap: 0.75rem; margin-top: 1rem; }
+.social-links a {
+    width: 36px;
+    height: 36px;
+    background: var(--gym-dark-3);
+    border: 1px solid var(--gym-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gym-text-muted);
+    transition: all 0.2s;
+}
+.social-links a:hover {
+    background: var(--gym-primary);
+    border-color: var(--gym-primary);
+    color: white;
+}
+.footer-divider { border-color: var(--gym-border); margin: 2rem 0; }
+.footer-bottom { padding: 0.5rem 0; }
+
+/* ============================================================
+   13. ERROR PAGE
+   ============================================================ */
+.error-page {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.error-number {
+    font-family: var(--gym-font-display);
+    font-size: 8rem;
+    color: var(--gym-primary);
+    line-height: 1;
+    margin-bottom: 1rem;
+}
+
+/* ============================================================
+   14. RESPONSIVE DESIGN
+   ============================================================ */
+@media (max-width: 768px) {
+    .hero-title { font-size: 3.5rem; }
+    .auth-right { padding: 2rem 1.5rem; }
+    .dashboard-card-header { flex-direction: column; gap: 0.75rem; text-align: center; }
+    .form-card-body { padding: 1.5rem; }
+    .hero-stats { gap: 1.5rem; }
+}
+
+@media (max-width: 576px) {
+    .hero-cta { flex-direction: column; }
+    .btn-gym-primary, .btn-gym-outline { width: 100%; text-align: center; }
+}
+
+/* ============================================================
+   15. ANIMATIONS
+   ============================================================ */
+/* Fade in on page load */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Pulse on hover for primary buttons */
+@keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,61,0,0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(255,61,0,0); }
+}
+
+/* Counter animation class (used by JS) */
+.counting { animation: fadeInUp 0.4s ease; }

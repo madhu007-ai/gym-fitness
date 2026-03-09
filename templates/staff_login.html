@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Staff Login - GymFitness Center{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-80">
+            <div class="col-lg-10">
+                <div class="auth-card row g-0">
+                    <!-- Left -->
+                    <div class="col-lg-5 auth-left d-none d-lg-flex">
+                        <div class="auth-left-content text-center">
+                            <div class="auth-left-icon">
+                                <i class="bi bi-shield-lock display-1"></i>
+                            </div>
+                            <h3>Staff Login</h3>
+                            <p>Only authorized staff members may access the admin dashboard.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right - Form -->
+                    <div class="col-lg-7 auth-right">
+                        <div class="auth-form-wrapper">
+                            <div class="auth-header mb-4">
+                                <h2 class="auth-title">Staff Sign‑In</h2>
+                                <p class="auth-subtitle">Enter your staff credentials 🔐</p>
+                            </div>
+                            
+                            <form id="staffLoginForm" action="{{ url_for('staff_login') }}" method="POST" novalidate>
+                                
+                                <!-- Username -->
+                                <div class="mb-3">
+                                    <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                        <input type="text" class="form-control gym-input" id="username" 
+                                               name="username" placeholder="Enter your username" required>
+                                    </div>
+                                </div>
+                                
+                                <!-- Password -->
+                                <div class="mb-4">
+                                    <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
+                                    <div class="input-group gym-input-group">
+                                        <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control gym-input" id="password" 
+                                               name="password" placeholder="Enter your password" required>
+                                        <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">
+                                            <i class="bi bi-eye" id="eye-icon"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Submit -->
+                                <button type="submit" class="btn btn-gym-primary w-100 btn-lg">
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                                </button>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function togglePassword() {
+    const field = document.getElementById('password');
+    const icon = document.getElementById('eye-icon');
+    if (field.type === 'password') {
+        field.type = 'text';
+        icon.className = 'bi bi-eye-slash';
+    } else {
+        field.type = 'password';
+        icon.className = 'bi bi-eye';
+    }
+}
+
+document.getElementById('staffLoginForm').addEventListener('submit', function(e) {
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    
+    if (!username || !password) {
+        e.preventDefault();
+        alert('Please fill in all fields!');
+        return false;
+    }
+    this.classList.add('was-validated');
+});
+</script>
+{% endblock %}

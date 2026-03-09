@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Edit Program - GymFitness{% endblock %}
+
+{% block content %}
+<div class="form-page py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-light mb-3">
+                    <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
+                </a>
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <i class="bi bi-pencil-square display-6 text-warning mb-2"></i>
+                        <h3>Edit Fitness Program</h3>
+                    </div>
+                    <div class="form-card-body">
+                        <form action="{{ url_for('edit_project', project_id=project.id) }}" method="POST" novalidate>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Program Title *</label>
+                                <input type="text" class="form-control gym-input" name="title"
+                                       value="{{ project.title }}" required>
+                            </div>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Category</label>
+                                    <select class="form-select gym-input" name="category">
+                                        {% for cat in ['Strength Training','Cardio','HIIT','Yoga & Flexibility','CrossFit','Bodybuilding','Weight Loss','Functional Fitness','Sports Performance','Rehabilitation'] %}
+                                        <option {% if project.category == cat %}selected{% endif %}>{{ cat }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Difficulty Level</label>
+                                    <select class="form-select gym-input" name="difficulty">
+                                        {% for diff in ['Beginner','Intermediate','Advanced','All Levels'] %}
+                                        <option {% if project.difficulty == diff %}selected{% endif %}>{{ diff }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Duration</label>
+                                <input type="text" class="form-control gym-input" name="duration"
+                                       value="{{ project.duration or '' }}">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Description</label>
+                                <textarea class="form-control gym-input" name="description" rows="5">{{ project.description or '' }}</textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Image URL</label>
+                                <input type="url" class="form-control gym-input" name="image_url"
+                                       value="{{ project.image_url or '' }}">
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" name="is_featured" id="is_featured"
+                                           {% if project.is_featured %}checked{% endif %}>
+                                    <label class="form-check-label" for="is_featured">
+                                        <i class="bi bi-star-fill text-warning me-1"></i>Feature on home page
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-3 justify-content-end">
+                                <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-gym-primary btn-lg px-5">
+                                    <i class="bi bi-save me-2"></i>Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

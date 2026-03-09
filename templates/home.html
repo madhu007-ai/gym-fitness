@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% block title %}GymFitness Center - Transform Your Body{% endblock %}
+
+{% block content %}
+
+<!-- ============================================================
+     HERO SECTION - Big eye-catching banner
+     ============================================================ -->
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center min-vh-85">
+            <div class="col-lg-7" data-aos="fade-right">
+                <div class="hero-badge mb-3">
+                    <span class="badge badge-gym">⚡ #1 FITNESS CENTER</span>
+                </div>
+                <h1 class="hero-title">
+                    UNLEASH YOUR<br>
+                    <span class="text-gradient">INNER BEAST</span>
+                </h1>
+                <p class="hero-subtitle">
+                    World-class equipment, expert trainers, and a community that pushes you to your limits. 
+                    Start your transformation today.
+                </p>
+                <div class="hero-cta d-flex gap-3 flex-wrap mt-4">
+                    {% if session.user_id %}
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-gym-primary btn-lg">
+                            <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+                        </a>
+                        <a href="{{ url_for('add_project') }}" class="btn btn-gym-outline btn-lg">
+                            <i class="bi bi-plus-circle me-2"></i>Add Program
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('register') }}" class="btn btn-gym-primary btn-lg px-5">
+                            <i class="bi bi-lightning me-2"></i>Start Free Trial
+                        </a>
+                        <a href="{{ url_for('login') }}" class="btn btn-gym-outline btn-lg">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Member Login
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Quick stats -->
+                <div class="hero-stats d-flex gap-4 mt-5">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ total_members }}+</span>
+                        <span class="stat-label">Members</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ total_programs }}+</span>
+                        <span class="stat-label">Programs</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Expert Trainers</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-5 d-none d-lg-block" data-aos="fade-left">
+                <div class="hero-image-container">
+                    <div class="hero-card floating">
+                        <div class="hero-card-content">
+                            <i class="bi bi-fire display-4 text-warning"></i>
+                            <h4>Today's Challenge</h4>
+                            <p>100 Push-ups · 50 Squats · 5km Run</p>
+                            <div class="progress gym-progress">
+                                <div class="progress-bar" style="width: 65%"></div>
+                            </div>
+                            <small>65% Complete</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator">
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FEATURES SECTION
+     ============================================================ -->
+<section class="features-section py-6">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-badge">WHY CHOOSE US</span>
+            <h2 class="section-title">Everything You Need<br>To <span class="text-accent">Succeed</span></h2>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon bg-danger">
+                        <i class="bi bi-fire"></i>
+                    </div>
+                    <h5>Intense Workouts</h5>
+                    <p>Science-backed training programs designed to maximize results in minimum time.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon bg-warning">
+                        <i class="bi bi-person-check"></i>
+                    </div>
+                    <h5>Expert Trainers</h5>
+                    <p>Certified professionals with years of experience guiding your transformation.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon bg-success">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h5>Modern Equipment</h5>
+                    <p>State-of-the-art machines and free weights for every type of workout.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card">
+                    <div class="feature-icon bg-info">
+                        <i class="bi bi-graph-up-arrow"></i>
+                    </div>
+                    <h5>Track Progress</h5>
+                    <p>Monitor your fitness journey with our easy-to-use digital tracking tools.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FEATURED PROGRAMS SECTION
+     ============================================================ -->
+{% if featured_projects %}
+<section class="programs-section py-6 bg-dark-alt">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-badge">OUR PROGRAMS</span>
+            <h2 class="section-title">Featured <span class="text-accent">Fitness Programs</span></h2>
+        </div>
+        
+        <div class="row g-4">
+            {% for project in featured_projects %}
+            <div class="col-lg-4 col-md-6">
+                <div class="program-card">
+                    {% if project.image_url %}
+                    <div class="program-image" style="background-image: url('{{ project.image_url }}')">
+                    {% else %}
+                    <div class="program-image program-image-default">
+                        <i class="bi bi-activity display-4"></i>
+                    {% endif %}
+                        <span class="program-badge">{{ project.difficulty or 'All Levels' }}</span>
+                    </div>
+                    <div class="program-body">
+                        <div class="program-meta">
+                            <span class="program-category">{{ project.category or 'Fitness' }}</span>
+                            {% if project.duration %}
+                            <span class="program-duration"><i class="bi bi-clock me-1"></i>{{ project.duration }}</span>
+                            {% endif %}
+                        </div>
+                        <h5 class="program-title">{{ project.title }}</h5>
+                        <p class="program-desc">{{ project.description[:100] if project.description else 'A comprehensive fitness program tailored for your success.' }}...</p>
+                        <div class="program-footer">
+                            <span class="trainer-name">
+                                <i class="bi bi-person me-1"></i>{{ project.author.full_name or project.author.username }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ============================================================
+     WORKOUT CLASSES SECTION
+     ============================================================ -->
+<section class="classes-section py-6">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="section-badge">WHAT WE OFFER</span>
+            <h2 class="section-title">Our <span class="text-accent">Workout Classes</span></h2>
+        </div>
+        
+        <div class="row g-3">
+            {% set classes = [
+                {'name': 'HIIT Training', 'icon': 'bi-lightning', 'color': 'danger', 'time': '45 min', 'desc': 'High-intensity intervals'},
+                {'name': 'Yoga Flow', 'icon': 'bi-person-arms-up', 'color': 'success', 'time': '60 min', 'desc': 'Flexibility & mindfulness'},
+                {'name': 'Strength Power', 'icon': 'bi-trophy', 'color': 'warning', 'time': '55 min', 'desc': 'Build muscle & power'},
+                {'name': 'Cardio Blast', 'icon': 'bi-heart-pulse', 'color': 'info', 'time': '40 min', 'desc': 'Burn calories fast'},
+                {'name': 'Spin Cycle', 'icon': 'bi-bicycle', 'color': 'primary', 'time': '45 min', 'desc': 'Indoor cycling'},
+                {'name': 'Pilates Core', 'icon': 'bi-bullseye', 'color': 'secondary', 'time': '50 min', 'desc': 'Core strengthening'}
+            ] %}
+            {% for cls in classes %}
+            <div class="col-lg-2 col-md-4 col-6">
+                <div class="class-card text-center">
+                    <div class="class-icon text-{{ cls.color }}">
+                        <i class="bi {{ cls.icon }}"></i>
+                    </div>
+                    <h6 class="class-name">{{ cls.name }}</h6>
+                    <span class="class-time">{{ cls.time }}</span>
+                    <p class="class-desc">{{ cls.desc }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CTA SECTION
+     ============================================================ -->
+<section class="cta-section py-6">
+    <div class="container">
+        <div class="cta-card text-center">
+            <div class="cta-content">
+                <span class="section-badge">LIMITED TIME OFFER</span>
+                <h2 class="cta-title">First Month <span class="text-accent">FREE!</span></h2>
+                <p class="cta-text">Join today and get your first month absolutely free. No contracts, cancel anytime.</p>
+                <a href="{{ url_for('register') }}" class="btn btn-gym-primary btn-lg px-5 mt-3">
+                    <i class="bi bi-lightning-fill me-2"></i>Claim Your Free Month
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
